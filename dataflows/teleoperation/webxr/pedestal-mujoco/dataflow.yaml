@@ -67,7 +67,9 @@ nodes:
       - status
 
   - id: mujoco # MuJoCo pedestal scene, rendered offscreen for the browser
-    build: pip install dora-openarm-mujoco
+    # The released openarm-mujoco has no head cameras in the pedestal
+    # scene yet, so install the patched fork the browser view needs.
+    build: pip install dora-openarm-mujoco openarm-mujoco@git+https://github.com/k1000dai/openarm_mujoco@miraikan
     path: dora-openarm-mujoco
     args: "--scene pedestal --enable-collision --ctrl --render"
     inputs:
