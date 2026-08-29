@@ -146,6 +146,8 @@ def _next_offer():
 
 def _next_job():
     """Claim the next queued job across all tasks."""
+    if not settings.JOBS_ENABLED:
+        return None
     for task_id in settings.OPENARM_ONLINE_TASK_IDS:
         job = job_client.fetch_next(task_id)
         if job is not None:

@@ -98,6 +98,9 @@ class Settings(BaseSettings):
         return level
 
     POLL_INTERVAL: int = 3
+    # Whether to poll for queued evaluation jobs. Disable against a
+    # teleoperation-only server that has no job queue endpoints.
+    JOBS_ENABLED: bool = True
     EVALUATE_TIMEOUT: int = Field(default=180, gt=0)
     RESET_TIMEOUT: int = Field(default=120, gt=0)
     TELEOPERATE_TIMEOUT: int = Field(default=300, gt=0)

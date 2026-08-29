@@ -51,6 +51,21 @@ def test_next_job_returns_none(monkeypatch):
     assert polled == [1, 2]
 
 
+def test_next_job_jobs_disabled(monkeypatch):
+    """_next_job() doesn't poll at all when jobs are disabled."""
+    monkeypatch.setattr(settings, "OPENARM_ONLINE_TASK_IDS", [1, 2])
+    monkeypatch.setattr(settings, "JOBS_ENABLED", False)
+    polled = []
+
+    def fetch_next(task_id):
+        polled.append(task_id)
+
+    monkeypatch.setattr(runner.job_client, "fetch_next", fetch_next)
+
+    assert runner._next_job() is None
+    assert polled == []
+
+
 def test_next_offer_polls_tasks_in_order(monkeypatch):
     """_next_offer() polls each task in order until an offer is found."""
     monkeypatch.setattr(settings, "OPENARM_ONLINE_TASK_IDS", [1, 2, 3])
